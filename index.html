@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="John Doe - Web Developer Portfolio" />
+  <meta name="theme-color" content="#6C63FF" />
+  <title>John Doe | Web Developer Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2e0e6f5f8.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* ---------------------- ROOT VARIABLES ---------------------- */
+    :root {
+      --primary: #6C63FF;
+      --bg: #f8f9fa;
+      --text: #333;
+      --light: #fff;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --dark-bg: #1e1e2f;
+      --dark-text: #f1f1f1;
+      --transition: 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--dark-bg);
+      --text: var(--dark-text);
+      --light: #2a2a40;
+      --shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Open Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Poppins", sans-serif;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ---------------------- PRELOADER ---------------------- */
+    #preloader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .spinner {
+      border: 4px solid #ccc;
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ---------------------- HEADER ---------------------- */
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--light);
+      box-shadow: 0 2px 8px var(--shadow);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      transition: var(--transition);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    nav a {
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    nav a.active, nav a:hover {
+      color: var(--primary);
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ---------------------- HERO ---------------------- */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6C63FF 0%, #9C91FF 100%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    #hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    #hero p { max-width: 600px; margin-bottom: 2rem; }
+    .btn {
+      display: inline-block;
+      background: #fff;
+      color: var(--primary);
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      margin: 0.5rem;
+      transition: var(--transition);
+    }
+    .btn:hover { transform: scale(1.05); }
+
+    /* ---------------------- ABOUT ---------------------- */
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    #about {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    #about img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 10px var(--shadow);
+    }
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .skill {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* ---------------------- PROJECTS ---------------------- */
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .filter-buttons button {
+      background: none;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 0.3rem;
+      transition: var(--transition);
+    }
+    .filter-buttons button.active, .filter-buttons button:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project {
+      background: var(--light);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .project img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .project:hover { transform: translateY(-5px); }
+    .project-content {
+      padding: 1rem;
+    }
+    .project-content h3 { color: var(--primary); }
+    .project-links a {
+      margin-right: 1rem;
+      color: var(--primary);
+    }
+
+    /* ---------------------- BLOG ---------------------- */
+    .blog-post {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .blog-post h3 { color: var(--primary); }
+
+    /* ---------------------- CONTACT ---------------------- */
+    form {
+      display: grid;
+      gap: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, textarea {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      font-size: 1rem;
+    }
+    button[type="submit"] {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    button[type="submit"]:hover { opacity: 0.9; }
+
+    .socials {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .socials a {
+      margin: 0 0.5rem;
+      color: var(--primary);
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+    .socials a:hover { color: #333; }
+
+    /* ---------------------- FOOTER ---------------------- */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--light);
+      box-shadow: 0 -2px 8px var(--shadow);
+    }
+
+    /* ---------------------- BACK TO TOP ---------------------- */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* ---------------------- RESPONSIVE ---------------------- */
+    @media(max-width: 768px){
+      nav ul {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--light);
+        flex-direction: column;
+        align-items: center;
+        display: none;
+      }
+      nav ul.show { display: flex; }
+      .menu-toggle { display: block; }
+      #about { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- PRELOADER -->
+  <div id="preloader"><div class="spinner"></div></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">John Doe</div>
+    <i class="fas fa-bars menu-toggle"></i>
+    <nav>
+      <ul>
+        <li><a href="#hero" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button id="darkToggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero">
+    <h1>Hi, I'm John Doe</h1>
+    <p>Creative Web Developer passionate about crafting elegant, user-friendly websites and applications.</p>
+    <div>
+      <a href="#projects" class="btn">View Projects</a>
+      <a href="#contact" class="btn">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about">
+    <img src="https://i.pravatar.cc/200" alt="Profile photo" loading="lazy">
+    <div>
+      <h2>About Me</h2>
+      <p>I'm a web developer specializing in front-end technologies like HTML, CSS, JavaScript, and React. I love building responsive, beautiful, and accessible user interfaces.</p>
+      <div class="skills">
+        <span class="skill">HTML5</span>
+        <span class="skill">CSS3</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">React</span>
+        <span class="skill">Node.js</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects">
+    <h2 style="text-align:center; margin-bottom:1rem;">My Projects</h2>
+    <div class="filter-buttons">
+      <button class="active" data-filter="all">All</button>
+      <button data-filter="web">Web</button>
+      <button data-filter="design">Design</button>
+    </div>
+    <div class="projects-grid">
+      <div class="project" data-category="web">
+        <img src="https://source.unsplash.com/400x300/?website" alt="Project 1" loading="lazy">
+        <div class="project-content">
+          <h3>Portfolio Website</h3>
+          <p>A modern personal portfolio built with HTML, CSS, and JS.</p>
+          <div class="project-links">
+            <a href="#">Live Demo</a>
+            <a href="#">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project" data-category="design">
+        <img src="https://source.unsplash.com/400x300/?design" alt="Project 2" loading="lazy">
+        <div class="project-content">
+          <h3>UI Design System</h3>
+          <p>A reusable design system for faster UI prototyping.</p>
+          <div class="project-links">
+            <a href="#">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION -->
+  <section id="blog">
+    <h2 style="text-align:center;">Blog & Notes</h2>
+    <div class="blog-posts">
+      <div class="blog-post">
+        <h3>Building Responsive Websites</h3>
+        <p><small>March 2025</small></p>
+        <p class="excerpt">Learn how to make your websites adapt to all screen sizes using CSS Grid and Flexbox.</p>
+      </div>
+      <div class="blog-post">
+        <h3>JavaScript Animation Tricks</h3>
+        <p><small>April 2025</small></p>
+        <p class="excerpt">Explore smooth animation techniques using vanilla JS and CSS transitions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <h2 style="text-align:center;">Contact Me</h2>
+    <form id="contactForm" novalidate>
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <input type="text" id="subject" placeholder="Subject" required>
+      <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="formMsg" style="text-align:center;margin-top:1rem;"></p>
+    <div class="socials">
+      <a href="#"><i class="fab fa-github"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="btn">Download Resume</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 John Doe. All rights reserved.</p>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ---------------------- PRELOADER ----------------------
+    window.addEventListener('load', () => {
+      document.getElementById('preloader').style.display = 'none';
+    });
+
+    // ---------------------- NAVBAR TOGGLE ----------------------
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('nav ul');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // ---------------------- ACTIVE LINK ON SCROLL ----------------------
+    const sections = document.querySelectorAll('section');
+    const navA = document.querySelectorAll('nav a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const secTop = sec.offsetTop - 80;
+        if (scrollY >= secTop) current = sec.getAttribute('id');
+      });
+      navA.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href').includes(current)) a.classList.add('active');
+      });
+    });
+
+    // ---------------------- FILTER PROJECTS ----------------------
+    const filterBtns = document.querySelectorAll('.filter-buttons button');
+    const projects = document.querySelectorAll('.project');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.dataset.filter;
+        projects.forEach(p => {
+          p.style.display = category === 'all' || p.dataset.category === category ? 'block' : 'none';
+        });
+      });
+    });
+
+    // ---------------------- CONTACT FORM ----------------------
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const msg = document.getElementById('formMsg');
+      msg.textContent = 'Sending...';
+      setTimeout(() => {
+        msg.textContent = 'Message sent successfully!';
+        form.reset();
+      }, 1500);
+    });
+
+    // ---------------------- DARK MODE TOGGLE ----------------------
+    const darkToggle = document.getElementById('darkToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.body.setAttribute('data-theme', savedTheme);
+    darkToggle.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // ---------------------- BACK TO TOP ----------------------
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+    });
+    backBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ---------------------- SCROLL ANIMATIONS ----------------------
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(sec => {
+      sec.style.opacity = 0;
+      sec.style.transform = 'translateY(40px)';
+      sec.style.transition = 'all 0.8s ease-out';
+      observer.observe(sec);
+    });
+  </script>
+</body>
+</html>
